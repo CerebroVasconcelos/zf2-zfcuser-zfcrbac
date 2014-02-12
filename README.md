@@ -10,7 +10,7 @@ Installation
 
     cd my/project/dir
     git clone git://github.com/svmashtaler/zf2-zfcuser-zfcrbac
-    cd ZendSkeletonApplication
+    cd zf2-zfcuser-zfcrbac
     php composer.phar self-update
     php composer.phar install
 
