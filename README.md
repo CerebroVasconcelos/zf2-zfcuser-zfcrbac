@@ -2,9 +2,7 @@ ACL for Zend Framework 2 using Zfc-User and Zfc-Rbac
 
 Introduction
 ------------
-This is a simple, skeleton application using the ZF2 MVC layer and module
-systems. This application is meant to be used as a starting place for those
-looking to get their feet wet with ZF2.
+This is a simple development code for ZF2 ACL using Zfc-User(Doctrine) and Zfc-Rbac
 
 
 Installation
@@ -22,7 +20,7 @@ Alternately, clone the repository and manually invoke `composer` using the shipp
 `composer.phar`:
 
     cd my/project/dir
-    git clone git://github.com/zendframework/ZendSkeletonApplication.git
+    git clone git://github.com/svmashtaler/zf2-zfcuser-zfcrbac
     cd ZendSkeletonApplication
     php composer.phar self-update
     php composer.phar install
