@@ -20,17 +20,13 @@ return array(
                     ),
                 ),
             ),
-            // The following is a route to simplify getting started creating
-            // new controllers and actions without needing to create a new
-            // module. Simply drop new controllers in, and you can access them
-            // using the path /application/:controller/:action
-            'application' => array(
+            'admin' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/application',
+                    'route'    => '/admin',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Application\Controller',
-                        'controller'    => 'Index',
+                        'controller'    => 'Admin',
                         'action'        => 'index',
                     ),
                 ),
@@ -50,11 +46,112 @@ return array(
                     ),
                 ),
             ),
+            'other' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route' => '/other[/:id]',
+                    'constraints' => array(
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Index',
+                        'action' => 'other',
+                    ),
+                ),
+            ),
+            'post' => array(
+                'type' => 'literal',
+                'options' => array(
+                    'route' => '/post',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Post',
+                        'action' => 'index'
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'read' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/[:action[/:id]]',
+                            'constraints' => array(
+                                'action'     => 'view|list',
+                                'id'       => '[0-9]+'
+                            ),
+                            'defaults' => array(
+                            ),
+                        ),
+                    ),
+                    'add' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/[:action]',
+                            'constraints' => array(
+                                'action'     => 'add',
+                            ),
+                            'defaults' => array(
+                            ),
+                        ),
+                    ),
+                    'edit' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/[:action[/:id]]',
+                            'constraints' => array(
+                                'action'     => 'edit|delete',
+                                'id'       => '[0-9]+'
+                            ),
+                            'defaults' => array(
+                            ),
+                        ),
+                    ),
+                ),
+//                'child_routes' => array(
+//                    // Segment route for viewing one blog post
+//                    'view' => array(
+//                        'type' => 'Literal',
+//                        'options' => array(
+//                            'route' => '/view',
+//                            'defaults' => array(
+//                                'controller' => 'Application\Controller\Post',
+//                                'action'     => 'view',
+//                            ),
+//                        ),
+//                    ),
+//                    'add' => array(
+//                        'type' => 'Literal',
+//                        'options' => array(
+//                            'route' => '/add',
+//                            'defaults' => array(
+//                                'controller' => 'Application\Controller\Post',
+//                                'action'     => 'add',
+//                            ),
+//                        ),
+//                    ),
+//                    'edit' => array(
+//                        'type' => 'Literal',
+//                        'options' => array(
+//                            'route' => '/edit[/:id]',
+//                            'constraints' => array(
+//                                'id' => '[0-9]+',
+//                            ),
+//                            'defaults' => array(
+//                                'controller' => 'Application\Controller\Post',
+//                                'action'     => 'edit',
+//                            ),
+//                        ),
+//                    ),
+//                ),
+            ),
         ),
     ),
     'service_manager' => array(
         'factories' => array(
             'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
+        ),
+        'aliases' => array(
+            'zfcuser_doctrine_em' => 'Doctrine\ORM\EntityManager',
+            'Zend\Authentication\AuthenticationService' => 'zfcuser_auth_service',
         ),
     ),
     'translator' => array(
@@ -69,7 +166,10 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
+            'Application\Controller\Index' => 'Application\Controller\IndexController',
+            'Application\Controller\Admin' => 'Application\Controller\AdminController',
+            'Application\Controller\Post' => 'Application\Controller\PostController',
+            'Application\Controller\User' => 'Application\Controller\UserController',
         ),
     ),
     'view_manager' => array(
@@ -86,6 +186,21 @@ return array(
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+    ),
+    'doctrine' => array(
+        'driver' => array(
+            'application_entities' => array(
+                'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/Application/Entity')
+            ),
+
+            'orm_default' => array(
+                'drivers' => array(
+                    'Application\Entity' => 'application_entities'
+                )
+            ),
         ),
     ),
 );

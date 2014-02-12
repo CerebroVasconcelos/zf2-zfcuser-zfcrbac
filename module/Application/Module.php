@@ -20,6 +20,15 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+        $t = $e->getTarget();
+
+//        $t->getEventManager()->attach(
+//            $t->getServiceManager()->get('ZfcRbac\View\Strategy\RedirectStrategy')
+//        );
+        $t->getEventManager()->attach(
+            $t->getServiceManager()->get('ZfcRbac\View\Strategy\UnauthorizedStrategy')
+        );
     }
 
     public function getConfig()
