@@ -22,12 +22,4 @@ class BaseController extends AbstractActionController
         }
         return $this->em;
     }
-
-    public function dump($var)
-    {
-        echo '<pre>';
-        if ($var) print_r($var);
-        else var_dump($var);
-        echo '</pre>';
-    }
 }
