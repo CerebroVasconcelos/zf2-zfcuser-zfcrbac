@@ -1,0 +1,14 @@
+CREATE TABLE `user` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`username` VARCHAR(255) NULL DEFAULT NULL,
+	`email` VARCHAR(255) NULL DEFAULT NULL,
+	`display_name` VARCHAR(50) NULL DEFAULT NULL,
+	`password` VARCHAR(128) NOT NULL,
+	`state` SMALLINT(1) UNSIGNED NULL DEFAULT NULL,
+	`role` VARCHAR(50) NULL DEFAULT NULL,
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `username` (`username`),
+	UNIQUE INDEX `email` (`email`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
